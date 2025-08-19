@@ -1,3 +1,4 @@
+
 import customtkinter as ctk
 from tkinter import messagebox, ttk
 from book_manager import get_books, add_book, update_book, delete_book
@@ -28,8 +29,9 @@ class MainPage(ctk.CTkFrame):
         
         ctk.CTkButton(self.sidebar_frame, text="Book Management", command=lambda: self.controller.show_frame("MainPage")).grid(row=1, column=0, padx=20, pady=10)
         ctk.CTkButton(self.sidebar_frame, text="Member Management", command=lambda: self.controller.show_frame("MembersPage")).grid(row=2, column=0, padx=20, pady=10)
-        ctk.CTkButton(self.sidebar_frame, text="Online Books", command=lambda: self.controller.show_frame("OnlineBooksPage")).grid(row=3, column=0, padx=20, pady=10)
-        ctk.CTkButton(self.sidebar_frame, text="Reports", command=lambda: self.controller.show_frame("ReportPage")).grid(row=4, column=0, padx=20, pady=10)
+        ctk.CTkButton(self.sidebar_frame, text="QR Code Generator", command=lambda: self.controller.show_frame("QRCodePage")).grid(row=3, column=0, padx=20, pady=10)
+        ctk.CTkButton(self.sidebar_frame, text="Online Books", command=lambda: self.controller.show_frame("OnlineBooksPage")).grid(row=4, column=0, padx=20, pady=10)
+        ctk.CTkButton(self.sidebar_frame, text="Reports", command=lambda: self.controller.show_frame("ReportPage")).grid(row=5, column=0, padx=20, pady=10)
         ctk.CTkButton(self.sidebar_frame, text="Logout", command=lambda: self.controller.show_frame("LoginPage"), fg_color="red").grid(row=6, column=0, padx=20, pady=10)
 
         self.content_area = ctk.CTkFrame(self, fg_color="transparent")
@@ -93,7 +95,7 @@ class MainPage(ctk.CTkFrame):
         
         ctk.CTkButton(borrow_frame, text="Open Calendar", command=self.open_calendar).grid(row=1, column=4, padx=5, pady=5)
         ctk.CTkButton(borrow_frame, text="Borrow Book", command=self.borrow_book).grid(row=2, column=0, padx=5, pady=5)
-        ctk.CTkButton(borrow_frame, text="Return Book", command=self.return_book, fg_color="red").grid(row=2, column=1, padx=5, pady=5)
+        ctk.CTkButton(borrow_frame, text="Return/Delete Borrowed Book", command=self.return_book, fg_color="red").grid(row=2, column=1, padx=5, pady=5)
 
         self.calendar = Calendar(borrow_frame, selectmode='day', date_pattern='yyyy-mm-dd',
                                  command=self.select_date)
@@ -191,7 +193,7 @@ class MainPage(ctk.CTkFrame):
 
     def load_members_to_combo(self):
         members = get_members()
-        self.member_list = {row[1]: row[0] for row in members}
+        self.member_list = {row['name']: row['id'] for row in members}
         self.member_combo.configure(values=["(Select Member)"] + list(self.member_list.keys()))
         self.member_combo.set("(Select Member)")
 
@@ -278,15 +280,11 @@ class MainPage(ctk.CTkFrame):
     def on_borrowed_tree_select(self, event):
         selected = self.borrowed_tree.selection()
         if selected:
+            # Correctly set the selected borrow ID without trying to populate the book form
             values = self.borrowed_tree.item(selected[0], "values")
-            self.selected_book_id = values[0]
-            self.title_var.set(values[1])
-            self.author_var.set(values[2])
-            self.year_var.set(values[3])
-            self.isbn_var.set(values[4])
+            self.selected_borrow_id = values[0]
         else:
-            self.clear_book_form()
-            self.selected_book_id = None
+            self.selected_borrow_id = None
         # Hide the QR code when a new book is selected or deselected
         if self.qr_code_label:
             self.qr_code_label.configure(image=None, text="")

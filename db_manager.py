@@ -51,17 +51,15 @@ def create_tables():
 
 def check_credentials(username, password):
     conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM users WHERE username = ? AND password = ?", (username, password))
-    user = cursor.fetchone()
+    user = conn.execute("SELECT * FROM users WHERE username = ? AND password = ?", (username, password)).fetchone()
     conn.close()
     return user is not None
 
 def get_members():
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT id, name, member_id FROM members")
-    members = cursor.fetchall()
+    cursor.execute("SELECT * FROM members")
+    members = [dict(row) for row in cursor.fetchall()]
     conn.close()
     return members
 
@@ -123,10 +121,6 @@ def return_book_db(borrow_record_id):
 
 def is_book_borrowed_db(book_id):
     conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT COUNT(*) FROM borrowed_books WHERE book_id = ?", (book_id,))
-    count = cursor.fetchone()[0]
+    count = conn.execute("SELECT COUNT(*) FROM borrowed_books WHERE book_id = ?", (book_id,)).fetchone()[0]
     conn.close()
     return count > 0
-
-create_tables()

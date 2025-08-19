@@ -18,10 +18,11 @@ class ReportPage(ctk.CTkFrame):
         
         ctk.CTkButton(self.sidebar_frame, text="Book Management", command=lambda: self.controller.show_frame("MainPage")).grid(row=1, column=0, padx=20, pady=10)
         ctk.CTkButton(self.sidebar_frame, text="Member Management", command=lambda: self.controller.show_frame("MembersPage")).grid(row=2, column=0, padx=20, pady=10)
-        ctk.CTkButton(self.sidebar_frame, text="Online Books", command=lambda: self.controller.show_frame("OnlineBooksPage")).grid(row=3, column=0, padx=20, pady=10)
-        ctk.CTkButton(self.sidebar_frame, text="Reports", command=lambda: self.controller.show_frame("ReportPage")).grid(row=4, column=0, padx=20, pady=10)
+        ctk.CTkButton(self.sidebar_frame, text="QR Code Generator", command=lambda: self.controller.show_frame("QRCodePage")).grid(row=3, column=0, padx=20, pady=10)
+        ctk.CTkButton(self.sidebar_frame, text="Online Books", command=lambda: self.controller.show_frame("OnlineBooksPage")).grid(row=4, column=0, padx=20, pady=10)
+        ctk.CTkButton(self.sidebar_frame, text="Reports", command=lambda: self.controller.show_frame("ReportPage")).grid(row=5, column=0, padx=20, pady=10)
         ctk.CTkButton(self.sidebar_frame, text="Logout", command=lambda: self.controller.show_frame("LoginPage"), fg_color="red").grid(row=6, column=0, padx=20, pady=10)
-
+        
         self.content_area = ctk.CTkFrame(self, fg_color="transparent")
         self.content_area.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
         self.content_area.grid_rowconfigure(0, weight=1)
@@ -51,4 +52,4 @@ class ReportPage(ctk.CTkFrame):
         
         self.book_count_label.configure(text=f"Total Books: {len(books)}")
         self.member_count_label.configure(text=f"Total Members: {len(members)}")
-        self.borrowed_count_label.configure(text=f"Books Currently Borrowed: {len(borrowed_books)}")
+        self.borrowed_count_label.configure(text=f"Total Borrowed Books: {len(borrowed_books)}")

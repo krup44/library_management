@@ -18,8 +18,9 @@ class OnlineBooksPage(ctk.CTkFrame):
         
         ctk.CTkButton(self.sidebar_frame, text="Book Management", command=lambda: self.controller.show_frame("MainPage")).grid(row=1, column=0, padx=20, pady=10)
         ctk.CTkButton(self.sidebar_frame, text="Member Management", command=lambda: self.controller.show_frame("MembersPage")).grid(row=2, column=0, padx=20, pady=10)
-        ctk.CTkButton(self.sidebar_frame, text="Online Books", command=lambda: self.controller.show_frame("OnlineBooksPage")).grid(row=3, column=0, padx=20, pady=10)
-        ctk.CTkButton(self.sidebar_frame, text="Reports", command=lambda: self.controller.show_frame("ReportPage")).grid(row=4, column=0, padx=20, pady=10)
+        ctk.CTkButton(self.sidebar_frame, text="QR Code Generator", command=lambda: self.controller.show_frame("QRCodePage")).grid(row=3, column=0, padx=20, pady=10)
+        ctk.CTkButton(self.sidebar_frame, text="Online Books", command=lambda: self.controller.show_frame("OnlineBooksPage")).grid(row=4, column=0, padx=20, pady=10)
+        ctk.CTkButton(self.sidebar_frame, text="Reports", command=lambda: self.controller.show_frame("ReportPage")).grid(row=5, column=0, padx=20, pady=10)
         ctk.CTkButton(self.sidebar_frame, text="Logout", command=lambda: self.controller.show_frame("LoginPage"), fg_color="red").grid(row=6, column=0, padx=20, pady=10)
 
         self.content_area = ctk.CTkFrame(self, fg_color="transparent")
@@ -69,3 +70,5 @@ class OnlineBooksPage(ctk.CTkFrame):
             encoded_query = urllib.parse.quote_plus(f"read {query} online free")
             google_url = f"https://www.google.com/search?q={encoded_query}"
             webbrowser.open_new_tab(google_url)
+        else:
+            messagebox.showwarning("Search Error", "Please enter a search query.")

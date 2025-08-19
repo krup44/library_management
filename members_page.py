@@ -19,8 +19,9 @@ class MembersPage(ctk.CTkFrame):
         
         ctk.CTkButton(self.sidebar_frame, text="Book Management", command=lambda: self.controller.show_frame("MainPage")).grid(row=1, column=0, padx=20, pady=10)
         ctk.CTkButton(self.sidebar_frame, text="Member Management", command=lambda: self.controller.show_frame("MembersPage")).grid(row=2, column=0, padx=20, pady=10)
-        ctk.CTkButton(self.sidebar_frame, text="Online Books", command=lambda: self.controller.show_frame("OnlineBooksPage")).grid(row=3, column=0, padx=20, pady=10)
-        ctk.CTkButton(self.sidebar_frame, text="Reports", command=lambda: self.controller.show_frame("ReportPage")).grid(row=4, column=0, padx=20, pady=10)
+        ctk.CTkButton(self.sidebar_frame, text="QR Code Generator", command=lambda: self.controller.show_frame("QRCodePage")).grid(row=3, column=0, padx=20, pady=10)
+        ctk.CTkButton(self.sidebar_frame, text="Online Books", command=lambda: self.controller.show_frame("OnlineBooksPage")).grid(row=4, column=0, padx=20, pady=10)
+        ctk.CTkButton(self.sidebar_frame, text="Reports", command=lambda: self.controller.show_frame("ReportPage")).grid(row=5, column=0, padx=20, pady=10)
         ctk.CTkButton(self.sidebar_frame, text="Logout", command=lambda: self.controller.show_frame("LoginPage"), fg_color="red").grid(row=6, column=0, padx=20, pady=10)
 
         self.content_area = ctk.CTkFrame(self, fg_color="transparent")
@@ -97,7 +98,7 @@ class MembersPage(ctk.CTkFrame):
         self.members_tree.delete(*self.members_tree.get_children())
         members = get_members()
         for member in members:
-            self.members_tree.insert("", "end", values=member)
+            self.members_tree.insert("", "end", values=(member['id'], member['name'], member['member_id']))
 
     def on_members_tree_select(self, event):
         selected = self.members_tree.selection()
